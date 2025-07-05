@@ -17,7 +17,6 @@ export class AuroraWarmupLambdaService
   constructor(private prisma: PrismaService) {}
 
   onModuleInit() {
-    // 应用启动时预热数据库
     this.warmupDatabase().catch((error) => {
       this.logger.error(
         '❌ 应用启动时数据库预热失败，将在后台重试',
@@ -35,11 +34,8 @@ export class AuroraWarmupLambdaService
       }, 5000);
     });
 
-    // 在Lambda环境中，设置一个保活机制
-    // 注意：Lambda有执行时间限制，这个interval应该适度
     if (process.env.AWS_LAMBDA_FUNCTION_NAME) {
       this.logger.log('🔧 Lambda环境检测到，启用轻量级保活机制');
-      // Lambda中使用更短的间隔，因为Lambda实例可能会频繁冷启动
       this.startKeepalive();
     }
   }
@@ -52,8 +48,6 @@ export class AuroraWarmupLambdaService
   }
 
   private startKeepalive() {
-    // 在Lambda中，我们可以使用较短的间隔来保持连接活跃
-    // 但要注意不要过度使用，因为Lambda有执行时间限制
     this.warmupInterval = setInterval(async () => {
       try {
         await this.keepAlive();
@@ -63,13 +57,11 @@ export class AuroraWarmupLambdaService
           error instanceof Error ? error.message : 'Unknown error',
         );
       }
-    }, 30000); // 30秒间隔，比原来的5分钟更频繁但适合Lambda
+    }, 30000);
   }
 
-  // 数据库保活
   async keepAlive() {
     try {
-      // 同时测试读写数据库
       await Promise.all([
         this.prisma.getWriterClient().$queryRaw`SELECT 1 as writer_heartbeat`,
         this.prisma.getReaderClient().$queryRaw`SELECT 1 as reader_heartbeat`,

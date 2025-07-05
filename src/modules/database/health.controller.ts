@@ -23,7 +23,6 @@ export class HealthController {
       },
     };
 
-    // 测试写数据库连接
     try {
       await this.prismaService.getWriterClient()
         .$queryRaw`SELECT 1 as writer_test`;
@@ -36,7 +35,6 @@ export class HealthController {
       };
     }
 
-    // 测试读数据库连接
     try {
       await this.prismaService.getReaderClient()
         .$queryRaw`SELECT 1 as reader_test`;
@@ -80,7 +78,6 @@ export class HealthController {
       },
     };
 
-    // 测试写操作（使用写库）
     try {
       const writeStart = Date.now();
       await this.prismaService.getWriterClient().$queryRaw`
@@ -108,7 +105,6 @@ export class HealthController {
       };
     }
 
-    // 测试读操作（使用读库）
     try {
       const readStart = Date.now();
       const readResult = await this.prismaService.getReaderClient().$queryRaw`
@@ -137,7 +133,6 @@ export class HealthController {
       };
     }
 
-    // 验证读写分离配置
     try {
       // 获取写库连接信息
       const writerInfo = await this.prismaService.getWriterClient().$queryRaw`
@@ -195,7 +190,6 @@ export class HealthController {
       },
     };
 
-    // 测试写库性能
     for (let i = 0; i < iterations; i++) {
       try {
         const start = Date.now();
@@ -208,7 +202,6 @@ export class HealthController {
       }
     }
 
-    // 测试读库性能
     for (let i = 0; i < iterations; i++) {
       try {
         const start = Date.now();
@@ -221,7 +214,6 @@ export class HealthController {
       }
     }
 
-    // 计算平均值
     const validWriterResults = results.writerPerformance.results.filter(
       (r) => r > 0,
     );

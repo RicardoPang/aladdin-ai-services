@@ -18,7 +18,7 @@ async function bootstrapServer() {
 
   // 安全配置
   app.use(helmet());
-  // app.use(compression()); // 暂时禁用压缩以解决Lambda中的解码问题
+  // app.use(compression());
 
   // 全局配置
   app.setGlobalPrefix('api');

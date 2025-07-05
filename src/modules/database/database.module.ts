@@ -8,7 +8,7 @@ import { HealthController } from './health.controller';
 @Global()
 @Module({
   imports: [
-    // ScheduleModule.forRoot() // 暂时禁用在Lambda环境中
+    // ScheduleModule.forRoot()
   ],
   controllers: [HealthController],
   providers: [PrismaService, AuroraWarmupLambdaService],

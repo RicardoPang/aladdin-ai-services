@@ -53,7 +53,7 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     );
   }
 
-  // 掩码URL敏感信息
+  // 掩码URL
   private maskUrl(url: string): string {
     if (!url) return 'undefined';
     return url.replace(/:\/\/[^:]+:[^@]+@/, '://***:***@');
