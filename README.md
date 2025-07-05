@@ -10,6 +10,7 @@
 - **DatabaseModule**：数据库连接和管理模块
 - **AgentsModule**：Agent管理模块
 - **JobsModule**：任务管理模块
+- **MatchingModule**：智能任务匹配模块
 
 项目实现了完整的MVC架构，每个功能模块都包含Controller、Service和DTO层，确保了代码的清晰分离和可维护性。
 
@@ -51,13 +52,30 @@
 - **TransformInterceptor**：拦截所有响应，统一转换为标准格式，包含状态码、消息和时间戳
 - **ValidationPipe**：全局验证管道，自动验证请求数据的合法性
 
-#### 6. 增删改查、数据库jobs的上传、agents的上传
+#### 6. 智能任务匹配系统
+
+实现了基于分类和标签的智能任务匹配系统：
+
+- **多维度匹配算法**：基于任务分类、技能标签的智能匹配
+- **评分机制**：采用100分制评分系统，确保最佳匹配结果
+- **自动分配**：支持任务的自动分配给最合适的Agent
+- **匹配统计**：提供详细的匹配统计和分析功能
+- **API接口**：提供RESTful API支持手动触发匹配和获取统计信息
+
+匹配算法特性：
+- 分类匹配（40分）：精确匹配任务分类和Agent专业领域
+- 标签匹配（最多50分）：基于技能标签的细粒度匹配
+- 通用助手加分（10分）：通用型Agent获得额外分数
+- 智能排序：按匹配分数和Agent声誉排序
+
+#### 7. 增删改查、数据库jobs的上传、agents的上传
 
 实现了完整的CRUD操作和数据导入功能：
 
 - **RESTful API**：为Agent和Job实现了标准的RESTful API（GraphQL？）
 - **数据导入脚本**：开发了`import-agents.ts`和`import-jobs.ts`脚本，支持从JSON文件批量导入数据
 - **交互式创建**：支持通过命令行交互式创建单个Agent或Job
+- **匹配脚本**：开发了`match-jobs-agents.ts`脚本，实现智能任务匹配
 
 #### 7. 其他重要功能
 
@@ -166,4 +184,134 @@
 ### 安装依赖
 
 ```bash
-pnpm install# Aladdin AI Services
+npm install
+```
+
+### 数据导入
+
+```bash
+# 导入Agent数据
+npm run import:agents
+
+# 导入Job数据
+npm run import:jobs
+
+# 生产环境导入
+npm run import:agents:prod
+npm run import:jobs:prod
+```
+
+### 智能匹配系统
+
+```bash
+# 运行匹配系统演示
+npm run demo:matching
+
+# 测试匹配算法
+npm run test:matching
+
+# 执行任务匹配
+npm run match:jobs-agents
+
+# 生产环境匹配
+npm run match:jobs-agents:prod
+```
+
+### 开发和部署
+
+```bash
+# 启动开发服务器
+npm run start:dev
+
+# 构建项目
+npm run build
+
+# 启动生产服务器
+npm run start:prod
+
+# 运行测试
+npm run test
+
+# 查看API文档
+# 访问 http://localhost:3000/api
+```
+
+### 数据库管理
+
+```bash
+# 打开Prisma Studio (开发环境)
+npm run prisma:dev
+
+# 打开Prisma Studio (生产环境)
+npm run prisma:prod
+
+# 生成Prisma客户端
+npx prisma generate
+
+# 数据库迁移
+npx prisma db push
+```
+
+## 匹配系统详细说明
+
+### 快速开始
+
+1. **运行完整演示**：
+```bash
+npm run demo:matching
+```
+这将自动执行数据导入、匹配测试、实际匹配等完整流程。
+
+2. **测试匹配算法**：
+```bash
+npm run test:matching
+```
+验证匹配算法的正确性和数据库连接。
+
+3. **执行实际匹配**：
+```bash
+npm run match:jobs-agents
+```
+对所有开放任务执行匹配，并为自动分配任务创建分发记录。
+
+### API接口
+
+匹配系统提供以下API接口：
+
+- `POST /api/matching/distribute` - 手动触发任务分发
+- `GET /api/matching/stats` - 获取匹配统计信息
+
+### 匹配结果
+
+匹配完成后，结果将保存在：
+- `data/match-results.json` - 详细匹配结果
+- 数据库中的分发记录表
+
+更多详细信息请参考：[匹配系统文档](./docs/MATCHING_SYSTEM.md)
+
+## 项目结构
+
+```
+src/
+├── app.module.ts          # 应用根模块
+├── agents/                # Agent管理模块
+├── jobs/                  # 任务管理模块
+├── matching/              # 智能匹配模块
+├── database/              # 数据库模块
+└── common/                # 公共组件
+
+scripts/
+├── import-agents.ts       # Agent数据导入脚本
+├── import-jobs.ts         # Job数据导入脚本
+├── match-jobs-agents.ts   # 智能匹配脚本
+├── test-matching.ts       # 匹配测试脚本
+└── demo-matching.ts       # 匹配演示脚本
+
+data/
+├── agents.json            # Agent示例数据
+├── jobs.json              # Job示例数据
+└── match-results.json     # 匹配结果（自动生成）
+
+docs/
+└── MATCHING_SYSTEM.md     # 匹配系统详细文档
+```

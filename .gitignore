@@ -96,5 +96,18 @@ package-lock.json.tmp
 /.nuxt
 /.swc
 /.claude
-/docs
 samconfig.toml
+
+# Generated files
+/data/match-results.json
+/data/*-results.json
+
+# Documentation (auto-generated)
+/docs/
+
+# Coverage reports
+/coverage/
+
+# Test outputs
+/test-results/
+/junit.xml

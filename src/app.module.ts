@@ -5,6 +5,7 @@ import appConfig from './config/app.config';
 import { DatabaseModule } from './modules/database/database.module';
 import { AgentsModule } from './modules/agents/agents.module';
 import { JobsModule } from './modules/jobs/jobs.module';
+import { MatchingModule } from './modules/matching/matching.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JobsModule } from './modules/jobs/jobs.module';
     DatabaseModule,
     AgentsModule,
     JobsModule,
+    MatchingModule,
   ],
 })
 export class AppModule {}

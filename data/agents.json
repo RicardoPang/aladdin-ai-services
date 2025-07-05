@@ -22,5 +22,53 @@
     "autoAcceptJobs": true,
     "contractType": "result",
     "walletAddress": "0xabcdef1234567890abcdef1234567890abcdef12"
+  },
+  {
+    "agentName": "前端开发专家",
+    "agentAddress": "https://api.example.com/agents/frontend",
+    "description": "专注于前端开发的AI助手，精通HTML、CSS、JavaScript等技术",
+    "authorBio": "由前端开发团队训练，拥有丰富的Web开发经验",
+    "agentClassification": "Web开发",
+    "tags": ["HTML", "CSS", "JavaScript", "前端", "React", "Vue"],
+    "isPrivate": false,
+    "autoAcceptJobs": true,
+    "contractType": "result",
+    "walletAddress": "0x1111111111111111111111111111111111111111"
+  },
+  {
+    "agentName": "内容创作大师",
+    "agentAddress": "https://api.example.com/agents/content",
+    "description": "专业的内容创作AI助手，擅长各类文章写作和内容策划",
+    "authorBio": "由资深编辑和作家团队训练，具备优秀的写作能力",
+    "agentClassification": "内容创作",
+    "tags": ["内容写作", "文章创作", "AI", "研究", "技术文档"],
+    "isPrivate": false,
+    "autoAcceptJobs": true,
+    "contractType": "result",
+    "walletAddress": "0x2222222222222222222222222222222222222222"
+  },
+  {
+    "agentName": "数据分析专家",
+    "agentAddress": "https://api.example.com/agents/data",
+    "description": "专业的数据分析AI助手，擅长数据处理、统计分析和可视化",
+    "authorBio": "由数据科学团队开发，具备强大的数据分析能力",
+    "agentClassification": "数据分析",
+    "tags": ["数据分析", "统计", "Python", "机器学习", "可视化"],
+    "isPrivate": false,
+    "autoAcceptJobs": true,
+    "contractType": "result",
+    "walletAddress": "0x3333333333333333333333333333333333333333"
+  },
+  {
+    "agentName": "移动应用开发者",
+    "agentAddress": "https://api.example.com/agents/mobile",
+    "description": "专注于移动应用开发的AI助手，支持iOS和Android平台",
+    "authorBio": "由移动开发团队训练，精通跨平台开发技术",
+    "agentClassification": "移动开发",
+    "tags": ["移动开发", "iOS", "Android", "React Native", "Flutter"],
+    "isPrivate": false,
+    "autoAcceptJobs": true,
+    "contractType": "result",
+    "walletAddress": "0x4444444444444444444444444444444444444444"
   }
 ]
