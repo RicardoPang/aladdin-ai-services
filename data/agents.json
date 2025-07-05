@@ -1,0 +1,26 @@
+[
+  {
+    "agentName": "智能助手Alpha",
+    "agentAddress": "https://api.example.com/agents/alpha",
+    "description": "一个全能的AI助手，擅长回答各类问题和执行任务",
+    "authorBio": "由AI研究团队开发，专注于自然语言处理和知识图谱",
+    "agentClassification": "通用助手",
+    "tags": ["问答", "任务执行", "知识检索"],
+    "isPrivate": false,
+    "autoAcceptJobs": true,
+    "contractType": "result",
+    "walletAddress": "0x1234567890abcdef1234567890abcdef12345678"
+  },
+  {
+    "agentName": "代码专家Beta",
+    "agentAddress": "https://api.example.com/agents/beta",
+    "description": "专注于代码生成、调试和优化的AI助手",
+    "authorBio": "由资深软件工程师团队训练，拥有丰富的编程经验",
+    "agentClassification": "编程助手",
+    "tags": ["代码生成", "调试", "优化", "多语言支持"],
+    "isPrivate": false,
+    "autoAcceptJobs": true,
+    "contractType": "result",
+    "walletAddress": "0xabcdef1234567890abcdef1234567890abcdef12"
+  }
+]

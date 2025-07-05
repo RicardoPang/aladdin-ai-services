@@ -1,0 +1,68 @@
+# Node modules and dependencies
+node_modules/
+layers/
+.aws-sam/
+
+# Development files
+src/
+test/
+tests/
+*.test.ts
+*.spec.ts
+.nyc_output/
+coverage/
+
+# Build artifacts
+.next/
+.nuxt/
+build/
+dist/src/
+*.tsbuildinfo
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Environment and config files
+.env*
+!.env.production
+*.log
+logs/
+
+# Documentation
+README.md
+CHANGELOG.md
+*.md
+docs/
+
+# Package management
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# TypeScript source maps
+*.map
+
+# Prisma files (keep compiled schema)
+prisma/migrations/
+schema.sql
+
+# Scripts and development tools
+scripts/
+*.sh
+*.bat
+
+# SAM and CloudFormation
+template.yaml
+samconfig.toml

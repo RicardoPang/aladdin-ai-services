@@ -1,0 +1,294 @@
+{
+  "editor.fontFamily": "Cascadia Code PL,Source Code Pro,Hack,Fira Code,Menlo,Chalkboard,Consolas,Geeza pro,Hack Nerd Font,Roboto Mono,Monaco,Cascadia Code Light",
+  "vscode_vibrancy.opacity": 1,
+  "vscode_vibrancy.enableAutoTheme": true,
+  "vscode_custom_css.imports": [
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/vscode-vibrancy-style.css",
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/synthwave84-noglow.css",
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/toolbar.css",
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/terminal.css",
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/enable-electron-vibrancy.js"
+  ],
+  "editor.accessibilitySupport": "off",
+  "editor.minimap.enabled": true,
+  "workbench.colorCustomizations": {
+    "[Night Owl (No Italics)]": {
+      "editorGroup.emptyBackground": "#00000000",
+      "sideBarSectionHeader.background": "#80808033",
+      "scrollbarSlider.background": "#79797966"
+    }
+  },
+  "vscode_custom_css.policy": true,
+  "background.enabled": true,
+  "background.useDefault": false,
+  "background.customImages": [
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/cs.png"
+  ],
+  "jest.runMode": {
+    "type": "on-demand",
+    "coverage": false
+  },
+  "background.style": {
+    "content": "''",
+    "pointer-events": "none",
+    "position": "absolute",
+    "width": "100%",
+    "height": "100%",
+    "z-index": "99999",
+    "background.repeat": "no-repeat",
+    "background-size": "25%, 25%",
+    "opacity": 0.4
+  },
+  "workbench.colorTheme": "Tokyo Night Storm",
+  "editor.selectionHighlight": false,
+  "editor.renderLineHighlight": "none",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": false,
+  "prettier.singleQuote": true,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "terminal.integrated.fontFamily": "monospace,Hack Nerd Font",
+  "terminal.integrated.lineHeight": 1.2,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.fontSize": 15,
+  "terminal.integrated.fontSize": 13,
+  "files.associations": {
+    "*.css": "postcss",
+    "*.vue": "vue"
+  },
+  "vscode_vibrancy.imports": ["$theme-style$"],
+  "bracketPairColorizer.activeScopeCSS": [
+    "borderStyle : solid",
+    "borderWidth : 1px",
+    "borderColor : {color}; opacity: 0.5"
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "tabnine.experimentalAutoImports": true,
+  "kite.showWelcomeNotificationOnStartup": false,
+  "editor.cursorBlinking": "phase",
+  "editor.fontLigatures": true,
+  "editor.fontS": "350",
+  "editor.fontWeight": "350",
+  "synthwave84.brightness": 0.45,
+  "editor.tokenColorCustomizations": {
+    "textMateRules": [
+      {
+        "name": "italic font",
+        "scope": [
+          "comment",
+          "keyword",
+          "storage",
+          "keyword.control",
+          "keyword.control.from",
+          "keyword.control.flow",
+          "keyword.operator.new",
+          "keyword.control.import",
+          "keyword.control.export",
+          "keyword.control.default",
+          "keyword.control.trycatch",
+          "keyword.control.conditional",
+          "storage.type",
+          "storage.type.class",
+          "storage.modifier.tsx",
+          "storage.type.function",
+          "storage.modifier.async",
+          "variable.language",
+          "variable.language.this",
+          "variable.language.super",
+          "meta.class",
+          "meta.var.expr",
+          "constant.language.null",
+          "support.type.primitive",
+          "entity.name.method.js",
+          "entity.other.attribute-name",
+          "punctuation.definition.comment",
+          "text.html.basic entity.other.attribute-name",
+          "tag.decorator.js entity.name.tag.js",
+          "tag.decorator.js punctuation.definition.tag.js",
+          "source.js constant.other.object.key.js string.unquoted.label.js"
+        ],
+        "settings": {
+          "fontStyle": "italic"
+        }
+      }
+    ]
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "material-icon-theme.files.associations": {},
+  "material-icon-theme.folders.associations": {
+    "yideng": "file://../../../icons/docs",
+    "recoil": "redux-store",
+    "unit": "Ngrx-entities"
+  },
+  "customizeUI.stylesheet": {
+    ".explorer-folders-view .monaco-list-row": "padding-left: 0px !important;",
+    ".monaco-icon-label:before": "background-size:18px !important",
+    ".monaco-workbench .part>.content": "font-size: 13px !important",
+    ".monaco-tl-twistie:before": "font-size: 15px;"
+  },
+  "backgroundCover.imagePath": "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/cs.png",
+  "backgroundCover.opacity": 0.5,
+  "editor.inlineSuggest.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": false,
+    "typescript": true
+  },
+  "terminal.integrated.gpuAcceleration": "off",
+  "json.schemas": [],
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.autofetch": true,
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "diffEditor.ignoreTrimWhitespace": false,
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1",
+    "CW_NEW_SESSION": "1",
+    "Q_NEW_SESSION": "1"
+  },
+  "bracket-pair-colorizer-2.depreciation-notice": false,
+  "bracketPairColorizer.depreciation-notice": false,
+  "solidity.compileUsingRemoteVersion": "v0.8.10+commit.fc410830",
+  "editor.unicodeHighlight.allowedCharacters": {
+    "️": true
+  },
+  "[solidity]": {
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
+  "[postcss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "ponicode.token": "4128af32-5f02-4bf0-8956-36a41081eed4",
+  "ponicode.watchMode": true,
+  "explorer.confirmDelete": false,
+  "editor.suggest.showMethods": true,
+  "editor.suggest.preview": true,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.snippetSuggestions": "top",
+  "aws.profile": "profile:zhijiaYideng",
+  "aws.lambda.recentlyUploaded": {
+    "profile:zhijiaYideng": {
+      "us-west-2": "ydAwsServerlessFn"
+    },
+    "profile:zhijiaSolv": {
+      "us-west-2": "solvImagesStorage",
+      "us-west-1": "solvImagesStorage"
+    }
+  },
+  "hardhat.telemetry": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "http.proxy": "http://127.0.0.1:7890",
+  "http.proxySupport": "on",
+  "http.proxyStrictSSL": false,
+  "typeChallenges.workspaceFolder": "/Users/yuanzhijia/.typeChallenges",
+  "codestream.serverUrl": "https://codestream-api-v2-us1.service.newrelic.com",
+  "window.zoomLevel": 1,
+  "prisma.showPrismaDataPlatformNotification": false,
+  "github.copilot.editor.enableAutoCompletions": true,
+  "[dart]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "dart.openDevTools": "flutter",
+  "cmake.pinnedCommands": [
+    "workbench.action.tasks.configureTaskRunner",
+    "workbench.action.tasks.runTask"
+  ],
+  "gitlens.ai.experimental.model": "openai:gpt-4-turbo",
+  "files.exclude": {
+    "**/*.meta": true
+  },
+  "tailwind-fold.autoFold": false,
+  "background.autoInstall": false,
+  "editor.guides.bracketPairsHorizontal": false,
+  "backgroundCover.sizeModel": "not_right_bottom",
+  "background.editorBackgrounds": [
+    "/Users/pangjianfeng/Documents/RicardoPang/VSCodeFile/cs.png"
+  ],
+  "background.backgroundAlignment": [
+    "Center Center",
+    "Bottom Right",
+    "Center Center",
+    "Center Center"
+  ],
+  "background.backgroundSize": ["Cover", "Manual", "Cover", "Cover"],
+  "background.backgroundSizeValue": ["100%", "25%", "100%", "100%"],
+  "background.backgroundOpacity": [0.1, 0.4, 0.1, 0.1],
+  "editor.fontVariations": false,
+  "workbench.settings.applyToAllProfiles": ["workbench.colorCustomizations"],
+  "vscode_vibrancy.refreshInterval": 1,
+  "redhat.telemetry.enabled": true,
+  "solidity.telemetry": true,
+  "window.titleBarStyle": "custom",
+  "vscode_vibrancy.theme": "Default Dark",
+  "labuladong-leetcode.siteCookie": "e6d24a0f-7d1a-408d-9be4-ba4571a8a9cf",
+  "labuladong-leetcode.workspaceFolder": "/Users/pangjianfeng/.lcpr",
+  "labuladong-leetcode.hint.configWebviewMarkdown": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.linkedEditing": true,
+  "cursor.cpp.disabledLanguages": ["yaml", "plaintext", "markdown"],
+  "windsurf.autocompleteSpeed": "fast",
+  "windsurf.autoExecutionPolicy": "off",
+  "windsurf.chatFontSize": "default",
+  "windsurf.rememberLastModelSelection": true,
+  "windsurf.openRecentConversation": true,
+  "windsurf.explainAndFixInCurrentConversation": true,
+  "git.openRepositoryInParentFolders": "never",
+  "windsurf.enableTabToJump": true,
+  "cSpell.userWords": [
+    "cpns",
+    "lanhu",
+    "modeflag",
+    "quicktype",
+    "wdyr"
+  ],
+  "workbench.editor.enablePreview": false,
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "vue.autoInsert.dotValue": true,
+  "mcpServers": {
+    "vscode-mcp-server": {
+      "command": "npx",
+      "args": ["mcp-remote@next", "http://localhost:3000/mcp"]
+    }
+  },
+  "vscode-mcp-server.defaultEnabled": true,
+  "workbench.startupEditor": "none",
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "liveServer.settings.donotVerifyTags": true,
+  "application.shellEnvironmentResolutionTimeout": 100
+}

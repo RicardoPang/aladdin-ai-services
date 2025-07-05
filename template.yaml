@@ -1,0 +1,108 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aladdin-ai-services
+  
+  SAM Template for Aladdin AI Services NestJS application
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 1024
+    Runtime: nodejs18.x
+    Environment:
+      Variables:
+        NODE_ENV: production
+        NODE_OPTIONS: --enable-source-maps
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - staging
+      - prod
+    Description: Deployment stage
+  
+  DatabaseUrl:
+    Type: String
+    NoEcho: true
+    Description: Database connection string for writer
+  
+  DatabaseUrlReader:
+    Type: String
+    NoEcho: true
+    Description: Database connection string for reader
+  
+  SecurityGroupIds:
+    Type: CommaDelimitedList
+    Default: ""
+    Description: List of security group IDs (optional)
+  
+  SubnetIds:
+    Type: CommaDelimitedList
+    Default: ""
+    Description: List of subnet IDs (optional)
+
+Conditions:
+  HasSecurityGroupId: !Not [!Equals [!Join ["", !Ref SecurityGroupIds], ""]]
+  HasSubnetIds: !Not [!Equals [!Join ["", !Ref SubnetIds], ""]]
+
+Resources:
+  AladdinAiServicesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist-minimal/
+      Handler: lambda.handler
+      Runtime: nodejs18.x
+      MemorySize: 1024
+      Timeout: 30
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+          DATABASE_URL_READER: !Ref DatabaseUrlReader
+          NODE_ENV: production
+          NODE_OPTIONS: --enable-source-maps
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            RestApiId: !Ref AladdinAiApi
+        RootApi:
+          Type: Api
+          Properties:
+            Path: /
+            Method: ANY
+            RestApiId: !Ref AladdinAiApi
+      VpcConfig:
+        SecurityGroupIds: !If [HasSecurityGroupId, !Ref SecurityGroupIds, !Ref 'AWS::NoValue']
+        SubnetIds: !If [HasSubnetIds, !Ref SubnetIds, !Ref 'AWS::NoValue']
+
+
+  AladdinAiApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      Cors:
+        AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+        AllowOrigin: "'*'"
+        AllowCredentials: false
+      Auth:
+        DefaultAuthorizer: NONE
+
+Outputs:
+  AladdinAiServicesApi:
+    Description: "API Gateway endpoint URL for Aladdin AI Services function"
+    Value: !Sub "https://${AladdinAiApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/"
+    Export:
+      Name: !Sub "${AWS::StackName}-api-url"
+  
+  AladdinAiServicesFunction:
+    Description: "Aladdin AI Services Lambda Function ARN"
+    Value: !GetAtt AladdinAiServicesFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-function-arn"

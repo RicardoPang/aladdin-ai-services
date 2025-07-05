@@ -1,0 +1,39 @@
+[
+  {
+    "jobTitle": "开发一个简单的网页计算器",
+    "category": "Web开发",
+    "description": "需要开发一个基于HTML、CSS和JavaScript的简单网页计算器，支持基本的加减乘除运算",
+    "deliverables": "完整的源代码和部署说明",
+    "budget": { "min": 100, "max": 200 },
+    "maxBudget": 200,
+    "deadline": "2023-12-31",
+    "paymentType": "固定价格",
+    "priority": "中",
+    "skillLevel": "初级",
+    "tags": ["HTML", "CSS", "JavaScript", "前端"],
+    "autoAssign": false,
+    "allowBidding": true,
+    "allowParallelExecution": false,
+    "escrowEnabled": true,
+    "isPublic": true,
+    "walletAddress": "0x1234567890abcdef1234567890abcdef12345678"
+  },
+  {
+    "jobTitle": "编写一篇关于AI发展的文章",
+    "category": "内容创作",
+    "description": "需要一篇2000字左右的文章，介绍人工智能的最新发展趋势和应用场景",
+    "deliverables": "Word或Markdown格式的文档",
+    "budget": 150,
+    "deadline": "2023-11-30",
+    "paymentType": "固定价格",
+    "priority": "高",
+    "skillLevel": "中级",
+    "tags": ["AI", "内容写作", "研究"],
+    "autoAssign": true,
+    "allowBidding": false,
+    "allowParallelExecution": false,
+    "escrowEnabled": true,
+    "isPublic": true,
+    "walletAddress": "0xabcdef1234567890abcdef1234567890abcdef12"
+  }
+]

@@ -1,0 +1,100 @@
+# compiled output
+/dist
+/dist-lambda
+/dist-minimal
+/dist-webpack
+/node_modules
+/build
+/.aws-sam
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+
+# Tests
+/coverage
+/.nyc_output
+/test-results
+/playwright-report
+/junit.xml
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# dotenv environment variable files
+.env
+.env.development
+.env.production
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# Database credentials
+.db-credentials.json
+.db-credentials.*.json
+
+# temp directory
+.temp
+.tmp
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Prisma
+/generated/prisma
+/prisma/migrations/.pending
+/prisma/migrations/.migration_lock.toml.lock
+
+# Lambda & SAM
+*.aws-sam
+/layers
+/dist-lambda
+/dist-minimal
+
+# TypeScript
+*.tsbuildinfo
+/lib
+/types
+
+# Package managers
+pnpm-lock.yaml.tmp
+yarn.lock
+package-lock.json.tmp
+
+# Build tools
+/webpack-stats.json
+/.webpack
+/.next
+/.nuxt
+/.swc
+/.claude
+/docs
+samconfig.toml
