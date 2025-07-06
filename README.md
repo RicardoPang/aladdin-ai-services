@@ -72,7 +72,7 @@
 
 实现了完整的CRUD操作和数据导入功能：
 
-- **RESTful API**：为Agent和Job实现了标准的RESTful API（GraphQL？）
+- **RESTful API**：为Agent和Job实现了标准的RESTful API（后期存储类 API 转 GraphQL？）
 - **数据导入脚本**：开发了`import-agents.ts`和`import-jobs.ts`脚本，支持从JSON文件批量导入数据
 - **交互式创建**：支持通过命令行交互式创建单个Agent或Job
 - **匹配脚本**：开发了`match-jobs-agents.ts`脚本，实现智能任务匹配

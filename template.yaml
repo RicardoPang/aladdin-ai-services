@@ -3,17 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   aladdin-ai-services
   
-  SAM Template for Aladdin AI Services NestJS application
-
-Globals:
-  Function:
-    Timeout: 30
-    MemorySize: 1024
-    Runtime: nodejs18.x
-    Environment:
-      Variables:
-        NODE_ENV: production
-        NODE_OPTIONS: --enable-source-maps
+  SAM Template for Aladdin AI Services NestJS application - VPC Architecture
 
 Parameters:
   Stage:
@@ -34,30 +24,275 @@ Parameters:
     Type: String
     NoEcho: true
     Description: Database connection string for reader
-  
-  SecurityGroupIds:
-    Type: CommaDelimitedList
-    Default: ""
-    Description: List of security group IDs (optional)
-  
-  SubnetIds:
-    Type: CommaDelimitedList
-    Default: ""
-    Description: List of subnet IDs (optional)
 
-Conditions:
-  HasSecurityGroupId: !Not [!Equals [!Join ["", !Ref SecurityGroupIds], ""]]
-  HasSubnetIds: !Not [!Equals [!Join ["", !Ref SubnetIds], ""]]
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 1024
+    Runtime: nodejs18.x
+    Environment:
+      Variables:
+        NODE_ENV: production
+        NODE_OPTIONS: --enable-source-maps
 
 Resources:
+  # VPC 配置
+  AladdinVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-VPC-New
+
+  # 互联网网关
+  AladdinInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-IGW-New
+
+  # 将互联网网关附加到VPC
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref AladdinInternetGateway
+      VpcId: !Ref AladdinVPC
+
+  # 弹性IP（用于NAT网关）
+  NatGatewayEIP:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-NAT-EIP-New
+
+  # 公共子网（用于NAT网关）
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AladdinVPC
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Public-Subnet-New
+
+  # NAT网关
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    DependsOn: [AttachGateway, NatGatewayEIP]
+    Properties:
+      AllocationId: !GetAtt NatGatewayEIP.AllocationId
+      SubnetId: !Ref PublicSubnet
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-NAT-Gateway-New
+
+  # 公共路由表
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AladdinVPC
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Public-RT-New
+
+  # 公共路由 - 指向互联网网关
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref AladdinInternetGateway
+
+  # 关联公共子网到公共路由表
+  PublicSubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet
+
+  # 私有子网1 - Lambda部署 (AZ-a)
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AladdinVPC
+      CidrBlock: 10.0.10.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Private-Subnet-1-New
+
+  # 私有子网2 - Lambda部署 (AZ-b)
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AladdinVPC
+      CidrBlock: 10.0.11.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Private-Subnet-2-New
+
+  # 私有子网3 - 预留扩展用 (AZ-c)
+  PrivateSubnet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref AladdinVPC
+      CidrBlock: 10.0.12.0/24
+      AvailabilityZone: !Select [2, !GetAZs '']
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Private-Subnet-3-New
+
+  # 私有路由表
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref AladdinVPC
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Private-RT-New
+
+  # 私有路由 - 指向NAT网关
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    DependsOn: NatGateway
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+
+  # 关联私有子网到私有路由表
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet1
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet2
+
+  PrivateSubnet3RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Ref PrivateSubnet3
+
+  # Lambda执行角色（具有VPC访问权限）
+  AladdinLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole'
+      Policies:
+        - PolicyName: LambdaVPCAndLoggingPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                  - 'logs:DescribeLogStreams'
+                Resource: 'arn:aws:logs:*:*:*'
+              - Effect: Allow
+                Action:
+                  - 'ec2:CreateNetworkInterface'
+                  - 'ec2:DescribeNetworkInterfaces'
+                  - 'ec2:DeleteNetworkInterface'
+                  - 'ec2:AssignPrivateIpAddresses'
+                  - 'ec2:UnassignPrivateIpAddresses'
+                Resource: '*'
+
+  # Lambda安全组
+  AladdinLambdaSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Aladdin AI Services Lambda function
+      VpcId: !Ref AladdinVPC
+      # 允许来自VPC内的所有入站流量
+      SecurityGroupIngress:
+        - IpProtocol: -1
+          CidrIp: 10.0.0.0/16
+          Description: Allow all inbound traffic from VPC
+      # 精确控制出站流量
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+          Description: Allow HTTPS outbound for API calls
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+          Description: Allow HTTP outbound for package downloads
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 0.0.0.0/0
+          Description: Allow PostgreSQL connections to external RDS
+      Tags:
+        - Key: Name
+          Value: Aladdin-AI-Services-Lambda-SG
+
+  # API Gateway
+  AladdinAiApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Stage
+      Cors:
+        AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
+        AllowOrigin: "'*'"
+        AllowCredentials: false
+      Auth:
+        DefaultAuthorizer: NONE
+      # API Gateway超时配置
+      GatewayResponses:
+        DEFAULT_5XX:
+          ResponseTemplates:
+            application/json: '{"error": "Internal server error, please try again later"}'
+      EndpointConfiguration: REGIONAL
+
+  # Lambda函数
   AladdinAiServicesFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: dist-minimal/
       Handler: lambda.handler
       Runtime: nodejs18.x
+      Role: !GetAtt AladdinLambdaExecutionRole.Arn
       MemorySize: 1024
       Timeout: 30
+      # VPC配置 - 部署在私有子网中
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref AladdinLambdaSecurityGroup
+        SubnetIds:
+          - !Ref PrivateSubnet1
+          - !Ref PrivateSubnet2
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
@@ -77,24 +312,147 @@ Resources:
             Path: /
             Method: ANY
             RestApiId: !Ref AladdinAiApi
-      VpcConfig:
-        SecurityGroupIds: !If [HasSecurityGroupId, !Ref SecurityGroupIds, !Ref 'AWS::NoValue']
-        SubnetIds: !If [HasSubnetIds, !Ref SubnetIds, !Ref 'AWS::NoValue']
 
-
-  AladdinAiApi:
-    Type: AWS::Serverless::Api
+  # CloudFront 分配
+  AladdinCloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
     Properties:
-      StageName: !Ref Stage
-      Cors:
-        AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
-        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'"
-        AllowOrigin: "'*'"
-        AllowCredentials: false
-      Auth:
-        DefaultAuthorizer: NONE
+      DistributionConfig:
+        Enabled: true
+        Comment: Aladdin AI Services CloudFront Distribution
+        Origins:
+          - DomainName: !Sub "${AladdinAiApi}.execute-api.${AWS::Region}.amazonaws.com"
+            Id: AladdinApiGatewayOrigin
+            OriginPath: !Sub "/${Stage}"
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: https-only
+              OriginSSLProtocols:
+                - TLSv1.2
+        DefaultCacheBehavior:
+          TargetOriginId: AladdinApiGatewayOrigin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: 
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          CachedMethods: 
+            - GET
+            - HEAD
+          ForwardedValues:
+            QueryString: true
+            Cookies:
+              Forward: all
+            Headers:
+              - Authorization
+              - Content-Type
+              - X-Api-Key
+              - Accept
+              - Origin
+              - Referer
+          # API响应缓存策略
+          DefaultTTL: 0
+          MinTTL: 0
+          MaxTTL: 86400
+          Compress: true
+        # 缓存行为配置
+        CacheBehaviors:
+          # 静态资源缓存 (如果有的话)
+          - PathPattern: "/api/docs*"
+            TargetOriginId: AladdinApiGatewayOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            ForwardedValues:
+              QueryString: false
+              Cookies:
+                Forward: none
+            DefaultTTL: 3600
+            MinTTL: 0
+            MaxTTL: 86400
+            Compress: true
+          # 健康检查端点缓存
+          - PathPattern: "/api/health*"
+            TargetOriginId: AladdinApiGatewayOrigin
+            ViewerProtocolPolicy: redirect-to-https
+            AllowedMethods: [GET, HEAD]
+            CachedMethods: [GET, HEAD]
+            ForwardedValues:
+              QueryString: false
+              Cookies:
+                Forward: none
+            DefaultTTL: 60
+            MinTTL: 0
+            MaxTTL: 300
+            Compress: true
+        # 价格等级
+        PriceClass: PriceClass_100  # 使用美国、欧洲和亚洲的边缘站点
+        # 地理限制 (可选)
+        Restrictions:
+          GeoRestriction:
+            RestrictionType: none
+        # SSL配置
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+          MinimumProtocolVersion: TLSv1.2_2021
+        # HTTP版本
+        HttpVersion: http2
+        # IPv6支持
+        IPV6Enabled: true
+        # Web ACL (WAF) - 可选
+        # WebACLId: !Ref WebACL
 
 Outputs:
+  # VPC 信息
+  VPCId:
+    Description: "VPC ID"
+    Value: !Ref AladdinVPC
+    Export:
+      Name: !Sub "${AWS::StackName}-VPC-ID"
+
+  PublicSubnetId:
+    Description: "Public Subnet ID"
+    Value: !Ref PublicSubnet
+    Export:
+      Name: !Sub "${AWS::StackName}-Public-Subnet-ID"
+
+  PrivateSubnet1Id:
+    Description: "Private Subnet 1 ID"
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: !Sub "${AWS::StackName}-Private-Subnet-1-ID"
+
+  PrivateSubnet2Id:
+    Description: "Private Subnet 2 ID"
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: !Sub "${AWS::StackName}-Private-Subnet-2-ID"
+
+  PrivateSubnet3Id:
+    Description: "Private Subnet 3 ID"
+    Value: !Ref PrivateSubnet3
+    Export:
+      Name: !Sub "${AWS::StackName}-Private-Subnet-3-ID"
+
+  # 网关信息
+  NatGatewayId:
+    Description: "NAT Gateway ID"
+    Value: !Ref NatGateway
+    Export:
+      Name: !Sub "${AWS::StackName}-NAT-Gateway-ID"
+
+  InternetGatewayId:
+    Description: "Internet Gateway ID"
+    Value: !Ref AladdinInternetGateway
+    Export:
+      Name: !Sub "${AWS::StackName}-IGW-ID"
+
+  # API 信息
   AladdinAiServicesApi:
     Description: "API Gateway endpoint URL for Aladdin AI Services function"
     Value: !Sub "https://${AladdinAiApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}/"
@@ -106,3 +464,29 @@ Outputs:
     Value: !GetAtt AladdinAiServicesFunction.Arn
     Export:
       Name: !Sub "${AWS::StackName}-function-arn"
+
+  # 安全组信息
+  LambdaSecurityGroupId:
+    Description: "Lambda Security Group ID"
+    Value: !Ref AladdinLambdaSecurityGroup
+    Export:
+      Name: !Sub "${AWS::StackName}-Lambda-SG-ID"
+
+  # CloudFront 信息
+  CloudFrontDistributionId:
+    Description: "CloudFront Distribution ID"
+    Value: !Ref AladdinCloudFrontDistribution
+    Export:
+      Name: !Sub "${AWS::StackName}-CloudFront-ID"
+
+  CloudFrontDistributionDomainName:
+    Description: "CloudFront Distribution Domain Name"
+    Value: !GetAtt AladdinCloudFrontDistribution.DomainName
+    Export:
+      Name: !Sub "${AWS::StackName}-CloudFront-Domain"
+
+  CloudFrontUrl:
+    Description: "CloudFront URL for API access"
+    Value: !Sub "https://${AladdinCloudFrontDistribution.DomainName}/api"
+    Export:
+      Name: !Sub "${AWS::StackName}-CloudFront-URL"

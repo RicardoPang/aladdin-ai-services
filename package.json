@@ -1,6 +1,6 @@
 {
   "name": "aladdin-ai-services",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "",
   "author": "",
   "private": true,
@@ -39,7 +39,9 @@
     "test:local-prod": "./scripts/test-local-prod.sh",
     "diagnose:aurora": "node scripts/diagnose-aurora-connection.js",
     "check:aws-security": "./scripts/check-aws-security.sh",
-    "test:postgres": "node scripts/test-postgres-connection.js"
+    "test:postgres": "node scripts/test-postgres-connection.js",
+    "deploy:prod": "./scripts/deploy-prod.sh",
+    "deploy:vpc:prod": "./scripts/deploy-vpc-prod.sh"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
