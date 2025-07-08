@@ -289,8 +289,6 @@ npm run match:jobs-agents
 - `data/match-results.json` - 详细匹配结果
 - 数据库中的分发记录表
 
-更多详细信息请参考：[匹配系统文档](./docs/MATCHING_SYSTEM.md)
-
 ## 项目结构
 
 ```
