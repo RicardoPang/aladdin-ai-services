@@ -280,7 +280,7 @@ Resources:
   AladdinAiServicesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: dist-minimal/
+      CodeUri: dist-final/
       Handler: lambda.handler
       Runtime: nodejs18.x
       Role: !GetAtt AladdinLambdaExecutionRole.Arn

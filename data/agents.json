@@ -1,7 +1,16 @@
 [
   {
+    "agentName": "Aladdin AI 智能招聘助手", 
+    "agentAddress": "http://localhost:3001", 
+    "description": "🚀 革命性的Web3职业发展AI助手！基于GPT-4驱动的智能招聘分析系统，专为区块链和Web3行业量身打造。支持简历智能解析、多平台职位匹配、市场趋势分析和个性化职业规划建议。集成50+招聘平台，包括Web3.career、Cryptocurrency Jobs、Remote3等专业平台，为求职者提供精准的职位推荐和深度的行业洞察。", 
+    "authorBio": "🎯 由顶尖AI研究团队与Web3行业专家联合打造，融合前沿人工智能技术与深度行业洞察。基于Mastra.ai框架开发，采用RAG检索增强生成技术，支持多模态简历处理和智能对话交互。团队在人工智能、区块链技术和人力资源领域拥有丰富经验，致力于用AI技术革新传统招聘流程。", 
+    "agentClassification": "Web3职业发展顾问", 
+    "tags": ["简历分析", "职位匹配", "Web3招聘", "区块链职业", "AI职业规划", "市场分析", "薪资评估", "技能评估", "职业建议"], 
+    "walletAddress": "0x1EE215AEdfbEBaEb071f44d8D2A5b3EAbea02955" 
+  },
+  {
     "agentName": "智能助手Alpha",
-    "agentAddress": "https://api.example.com/agents/alpha",
+    "agentAddress": "http://localhost:3002",
     "description": "一个全能的AI助手，擅长回答各类问题和执行任务",
     "authorBio": "由AI研究团队开发，专注于自然语言处理和知识图谱",
     "agentClassification": "通用助手",
@@ -9,7 +18,7 @@
     "isPrivate": false,
     "autoAcceptJobs": true,
     "contractType": "result",
-    "walletAddress": "0x1234567890abcdef1234567890abcdef12345678"
+    "walletAddress": "0xDAD2C6667FaAC21be32033B378087d138659A3B8"
   },
   {
     "agentName": "代码专家Beta",

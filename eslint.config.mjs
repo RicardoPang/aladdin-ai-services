@@ -6,7 +6,13 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs', 'scripts/**/*', 'test/jest-e2e-setup.js', 'webpack.config.js'],
+    ignores: [
+      'eslint.config.mjs',
+      'scripts/**/*',
+      'test/jest-e2e-setup.js',
+      'webpack.config.js',
+      'config/webpack.*.js',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,

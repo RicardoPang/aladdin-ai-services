@@ -1,5 +1,7 @@
 # Aladdin AI Services
 
+> 访问：https://8k6z7mfxy0.execute-api.ap-southeast-2.amazonaws.com/prod/api/agents
+
 ### 从零到1实现
 
 #### 1. NestJS架构

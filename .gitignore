@@ -3,6 +3,8 @@
 /dist-lambda
 /dist-minimal
 /dist-webpack
+/dist-final
+/dist-layers
 /node_modules
 /build
 /.aws-sam
@@ -111,3 +113,5 @@ samconfig.toml
 # Test outputs
 /test-results/
 /junit.xml
+
+/项目总结

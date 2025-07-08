@@ -290,5 +290,6 @@
   "terminal.integrated.enableMultiLinePasteWarning": "never",
   "liveServer.settings.donotShowInfoMsg": true,
   "liveServer.settings.donotVerifyTags": true,
-  "application.shellEnvironmentResolutionTimeout": 100
+  "application.shellEnvironmentResolutionTimeout": 100,
+  "scm.diffDecorations": "all"
 }
